@@ -18,7 +18,7 @@
       <label>Usuário<input id="loginUser" autocomplete="username" required /></label>
       <label>Senha<input id="loginPassword" type="password" autocomplete="current-password" required /></label>
       <button class="primary" type="submit">Entrar</button>
-      <button id="openConnectionFromLogin" class="secondary" type="button">Configurar API</button>
+      
       <p id="loginMessage" class="small"></p>
     </form>
   </section>
@@ -33,7 +33,7 @@
       <div class="top-actions">
         <span id="apiStatus" class="status-pill">API não validada</span>
         <button id="openTicketBtn" class="primary">+ Abrir chamado</button>
-        <button id="settingsBtn" class="secondary">Configurações</button>
+        
         <button id="logoutBtn" class="secondary">Sair</button>
         <button id="installBtn" class="secondary hidden">Instalar app</button>
       </div>
@@ -131,10 +131,7 @@
   </div>
 
   <template id="requestTemplate"><article class="request-card"><div class="request-head"><div><span class="badge type"></span><span class="badge gas"></span><span class="badge priority"></span><span class="badge status"></span></div><button class="secondary open">Abrir</button></div><h3 class="subject"></h3><p class="meta"></p><p class="excerpt"></p><p class="validation"></p><div class="request-footer"><span class="unit"></span><span class="received"></span></div></article></template>
-
-  <dialog id="settingsDialog"><form method="dialog" class="dialog-card"><h2>Configurar integração</h2><label>URL do Apps Script (/exec)<input id="endpointInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" /></label><label>APP_KEY<input id="apiKeyInput" type="password" autocomplete="off" /></label><p class="small">A APP_KEY fica somente neste navegador e nas Propriedades do Script. Não publique a chave no GitHub.</p><div class="dialog-actions"><button value="cancel" class="secondary">Cancelar</button><button id="saveSettings" value="default" class="primary">Salvar e testar</button></div></form></dialog>
-
-  <dialog id="detailDialog"><div class="dialog-card wide"><div class="request-head"><div><h2 id="detailTitle"></h2><p id="detailMeta" class="small"></p></div><button id="closeDetail" class="secondary">Fechar</button></div><div id="detailContent"></div></div></dialog>
+<dialog id="detailDialog"><div class="dialog-card wide"><div class="request-head"><div><h2 id="detailTitle"></h2><p id="detailMeta" class="small"></p></div><button id="closeDetail" class="secondary">Fechar</button></div><div id="detailContent"></div></div></dialog>
 
   <dialog id="ticketDialog"><form id="ticketForm" class="dialog-card wide"><h2>Abrir chamado para distribuidora</h2><div class="form-grid"><label>Unidade<input name="unit" required /></label><label>Tipo<select name="type" required><option>REPOSICAO_EXTRAORDINARIA</option><option>MANUTENCAO</option><option>VAZAMENTO</option><option>TROCA</option><option>ACESSORIO</option><option>ATRASO_ENTREGA</option><option>DIVERGENCIA_QUANTIDADE</option><option>OUTRO</option></select></label><label>Gás<select name="gasType"><option value="OXIGENIO">Oxigênio</option><option value="AR_COMPRIMIDO">Ar comprimido</option><option value="NAO_APLICAVEL">Não aplicável</option></select></label><label>Quantidade<input name="quantity" type="number" min="0" step="1" /></label><label>Prioridade<select name="priority"><option value="NORMAL">Normal</option><option value="URGENTE">Urgente</option></select></label><label>Responsável<input name="responsible" required /></label><label>Telefone<input name="phone" /></label></div><label>Descrição<textarea name="description" rows="5" required></textarea></label><div class="dialog-actions"><button type="button" id="cancelTicket" class="secondary">Cancelar</button><button class="primary" type="submit">Enviar chamado</button></div></form></dialog>
 

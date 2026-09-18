@@ -1,4 +1,7 @@
-Gestão de Gases Medicinais Serra
-Versão: 4.0.0
-Início da análise operacional: 18/09/2026
-Segredos/APP_KEY: NÃO armazenados neste repositório.
+GASES MEDICINAIS SERRA — V4.3 CORRIGIDA
+
+- Configuração manual de API removida.
+- APP_KEY removida.
+- Endpoint do Apps Script fixado no frontend.
+- Login por usuário e senha mantido.
+- Cache da PWA atualizado para evitar carregamento da versão antiga.
