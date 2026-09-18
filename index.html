@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0f4c5c" />
+  <title>Gestão de Gases Medicinais — Serra V4</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./assets/icons/icon-192.png" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <section id="loginView" class="login-shell">
+    <form id="loginForm" class="login-card">
+      <p class="eyebrow">Secretaria Municipal de Saúde da Serra</p>
+      <h1>Gestão de Gases Medicinais</h1>
+      <p class="subtitle">Acesso exclusivo da gestão</p>
+      <label>Usuário<input id="loginUser" autocomplete="username" required /></label>
+      <label>Senha<input id="loginPassword" type="password" autocomplete="current-password" required /></label>
+      <button class="primary" type="submit">Entrar</button>
+      <button id="openConnectionFromLogin" class="secondary" type="button">Configurar API</button>
+      <p id="loginMessage" class="small"></p>
+    </form>
+  </section>
+
+  <div id="appShell" class="hidden">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Secretaria Municipal de Saúde da Serra</p>
+        <h1>Gestão de Gases Medicinais — V4</h1>
+        <p class="subtitle">Solicitações, chamados, inventário, indicadores e fiscalização contratual</p>
+      </div>
+      <div class="top-actions">
+        <span id="apiStatus" class="status-pill">API não validada</span>
+        <button id="openTicketBtn" class="primary">+ Abrir chamado</button>
+        <button id="settingsBtn" class="secondary">Configurações</button>
+        <button id="logoutBtn" class="secondary">Sair</button>
+        <button id="installBtn" class="secondary hidden">Instalar app</button>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Navegação principal">
+      <button class="nav-btn active" data-view="dashboard">Painel</button>
+      <button class="nav-btn" data-view="solicitacoes">Solicitações</button>
+      <button class="nav-btn" data-view="chamados">Chamados</button>
+      <button class="nav-btn" data-view="inventario">Inventário</button>
+      <button class="nav-btn" data-view="indicadores">Indicadores</button>
+      <button class="nav-btn" data-view="fiscalizacao">Fiscalização contratual</button>
+      <button class="nav-btn" data-view="documentos">Documentos</button>
+    </nav>
+
+    <main>
+      <section id="view-dashboard" class="app-view active">
+        <div class="summary-grid six">
+          <article><span>Recebidas</span><strong id="totalCount">0</strong></article>
+          <article><span>Corretas</span><strong id="validCount">0</strong></article>
+          <article><span>Fora do padrão</span><strong id="invalidCount">0</strong></article>
+          <article><span>Corrigidas</span><strong id="correctedCount">0</strong></article>
+          <article><span>O₂ solicitados</span><strong id="oxygenQty">0</strong></article>
+          <article><span>Ar comprimido</span><strong id="airQty">0</strong></article>
+        </div>
+        <div class="section-card">
+          <div class="request-head"><div><h2>Operação</h2><p class="small">Análise iniciada em 18/09/2026.</p></div><button id="syncBtn" class="primary">Buscar novos e-mails</button></div>
+          <div id="syncResult" class="note hidden"></div>
+        </div>
+      </section>
+
+      <section id="view-solicitacoes" class="app-view">
+        <div class="toolbar">
+          <input id="searchInput" placeholder="Buscar por unidade, assunto, solicitante ou conteúdo" />
+          <select id="typeFilter"><option value="ALL">Todos os tipos</option><option value="REPOSICAO">Reposição</option><option value="TROCA">Troca</option><option value="MANUTENCAO">Manutenção</option><option value="VAZAMENTO">Vazamento</option><option value="DOCUMENTO">Documento</option><option value="RESPOSTA_CONTRATADA">Resposta da contratada</option><option value="REVISAO">Revisão</option></select>
+          <select id="statusFilter"><option value="ALL">Todos os status</option><option value="PENDENTE">Pendente</option><option value="PADRAO_INVALIDO">Fora do padrão</option><option value="DEVOLVIDO_PARA_AJUSTE">Devolvido para ajuste</option><option value="CORRIGIDO">Corrigido</option><option value="ENVIADO">Enviado</option><option value="DOCUMENTO_ENVIADO">Documento enviado</option><option value="IGNORADO">Ignorado</option></select>
+        </div>
+        <div id="requests" class="request-list"></div>
+        <div id="emptyState" class="empty-state">Nenhuma solicitação carregada.</div>
+      </section>
+
+      <section id="view-chamados" class="app-view">
+        <div class="section-card"><div class="request-head"><div><h2>Chamados à distribuidora</h2><p class="small">Abertura manual para reposição extraordinária, manutenção, vazamento, troca, acessórios e outras ocorrências.</p></div><button id="openTicketBtn2" class="primary">+ Abrir chamado</button></div></div>
+        <div id="tickets" class="request-list"></div>
+      </section>
+
+      <section id="view-inventario" class="app-view">
+        <div class="section-card">
+          <h2>Inventário de Gases Medicinais</h2>
+          <p>Atualização anual, sempre que houver alteração relevante no quantitativo/tipo/disponibilidade dos cilindros ou quando solicitada pela Equipe de Gases Medicinais.</p>
+          <div class="action-row">
+            <a class="button-link primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfAwS2r1v6nJc-xaCVKaWiXKIs9UrM-fBEDTBZXVatoruXsbQ/viewform?usp=header" target="_blank" rel="noopener">Atualizar inventário</a>
+            <a class="button-link secondary" href="https://docs.google.com/spreadsheets/d/1mIPD1vVouZdxKjouQYwKbBeRUVBgdrDTFOsGvJGvDw0/edit?resourcekey=&gid=1613282144#gid=1613282144" target="_blank" rel="noopener">Planilha do inventário</a>
+            <a class="button-link secondary" href="./docs/Anexo_I_Inventario_Gases_Medicinais.pdf" target="_blank" rel="noopener">Anexo I</a>
+          </div>
+          <div class="note"><strong>Regra automática:</strong> quando não houver atualização registrada nos últimos 12 meses, as mensagens automáticas incluirão orientação para atualizar o inventário e informarão para desconsiderar caso a unidade já tenha atualizado no período.</div>
+        </div>
+      </section>
+
+      <section id="view-indicadores" class="app-view">
+        <div class="section-card">
+          <div class="request-head"><div><h2>Indicadores</h2><p class="small">Baseados nos e-mails e chamados processados a partir de 18/09/2026.</p></div><div class="action-row"><button id="refreshIndicatorsBtn" class="primary">Atualizar indicadores</button><button id="openIndicatorsSheetBtn" class="secondary">Abrir planilha de indicadores</button></div></div>
+          <div id="indicatorCards" class="summary-grid"></div>
+        </div>
+      </section>
+
+      <section id="view-fiscalizacao" class="app-view">
+        <div class="section-card">
+          <h2>Fiscalização contratual</h2>
+          <p>Análise dos deveres da contratada e da contratante, com base no Contrato nº 053/2021 e documentos vinculados.</p>
+          <div class="contract-grid">
+            <article><h3>Contratada</h3><p>Fornecimento de gases; assistência técnica; manutenção dos itens locados quando prevista; atendimento de solicitações; reposição; comunicação de impedimentos; demais obrigações contratuais.</p></article>
+            <article><h3>Contratante</h3><p>Fiscalização, acompanhamento, pagamentos conforme regras contratuais, adequações físicas quando cabíveis e demais obrigações estabelecidas no instrumento e Termo de Referência.</p></article>
+          </div>
+          <div class="note"><strong>Segurança:</strong> o app pode localizar uma possível base contratual e gerar minuta de contrarresposta, mas o envio de cobrança contratual exige revisão da gestão.</div>
+          <div id="contractCases" class="request-list"></div>
+        </div>
+      </section>
+
+      <section id="view-documentos" class="app-view">
+        <div class="section-card">
+          <h2>Processo de trabalho, anexos e contrato</h2>
+          <div class="docs-grid">
+            <a href="./docs/Processo_Gases_Medicinais_Atualizado.pdf" target="_blank" rel="noopener">Processo de Trabalho</a>
+            <a href="./docs/Anexo_I_Inventario_Gases_Medicinais.pdf" target="_blank" rel="noopener">Anexo I — Inventário</a>
+            <a href="./docs/Anexo_II_Modelo_Solicitacao_Reposicao.pdf" target="_blank" rel="noopener">Anexo II — Solicitação de reposição</a>
+            <a href="./docs/Anexo_III_Modelo_Resposta_Contratada.pdf" target="_blank" rel="noopener">Anexo III — Resposta da contratada</a>
+            <a href="./docs/Anexo_IV_Fluxograma_Processo.pdf" target="_blank" rel="noopener">Anexo IV — Fluxograma</a>
+            <a href="./docs/Contrato_053_2021_IBG_Gases_Medicinais.pdf" target="_blank" rel="noopener">Contrato nº 053/2021 — IBG</a>
+          </div>
+          <div class="action-row top-gap"><button id="sendDocumentBtn" class="primary">Enviar documento por e-mail</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="requestTemplate"><article class="request-card"><div class="request-head"><div><span class="badge type"></span><span class="badge gas"></span><span class="badge priority"></span><span class="badge status"></span></div><button class="secondary open">Abrir</button></div><h3 class="subject"></h3><p class="meta"></p><p class="excerpt"></p><p class="validation"></p><div class="request-footer"><span class="unit"></span><span class="received"></span></div></article></template>
+
+  <dialog id="settingsDialog"><form method="dialog" class="dialog-card"><h2>Configurar integração</h2><label>URL do Apps Script (/exec)<input id="endpointInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" /></label><label>APP_KEY<input id="apiKeyInput" type="password" autocomplete="off" /></label><p class="small">A APP_KEY fica somente neste navegador e nas Propriedades do Script. Não publique a chave no GitHub.</p><div class="dialog-actions"><button value="cancel" class="secondary">Cancelar</button><button id="saveSettings" value="default" class="primary">Salvar e testar</button></div></form></dialog>
+
+  <dialog id="detailDialog"><div class="dialog-card wide"><div class="request-head"><div><h2 id="detailTitle"></h2><p id="detailMeta" class="small"></p></div><button id="closeDetail" class="secondary">Fechar</button></div><div id="detailContent"></div></div></dialog>
+
+  <dialog id="ticketDialog"><form id="ticketForm" class="dialog-card wide"><h2>Abrir chamado para distribuidora</h2><div class="form-grid"><label>Unidade<input name="unit" required /></label><label>Tipo<select name="type" required><option>REPOSICAO_EXTRAORDINARIA</option><option>MANUTENCAO</option><option>VAZAMENTO</option><option>TROCA</option><option>ACESSORIO</option><option>ATRASO_ENTREGA</option><option>DIVERGENCIA_QUANTIDADE</option><option>OUTRO</option></select></label><label>Gás<select name="gasType"><option value="OXIGENIO">Oxigênio</option><option value="AR_COMPRIMIDO">Ar comprimido</option><option value="NAO_APLICAVEL">Não aplicável</option></select></label><label>Quantidade<input name="quantity" type="number" min="0" step="1" /></label><label>Prioridade<select name="priority"><option value="NORMAL">Normal</option><option value="URGENTE">Urgente</option></select></label><label>Responsável<input name="responsible" required /></label><label>Telefone<input name="phone" /></label></div><label>Descrição<textarea name="description" rows="5" required></textarea></label><div class="dialog-actions"><button type="button" id="cancelTicket" class="secondary">Cancelar</button><button class="primary" type="submit">Enviar chamado</button></div></form></dialog>
+
+  <dialog id="documentDialog"><form id="documentForm" class="dialog-card"><h2>Enviar documento</h2><label>E-mail do destinatário<input name="to" type="email" required /></label><label>Documento<select name="documentKey"><option value="PROCESSO">Processo de Trabalho</option><option value="ANEXO_I">Anexo I — Inventário</option><option value="ANEXO_II">Anexo II — Solicitação de reposição</option><option value="ANEXO_III">Anexo III — Resposta da contratada</option><option value="ANEXO_IV">Anexo IV — Fluxograma</option></select></label><label>Mensagem opcional<textarea name="message" rows="4"></textarea></label><div class="dialog-actions"><button type="button" id="cancelDocument" class="secondary">Cancelar</button><button class="primary" type="submit">Enviar</button></div></form></dialog>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

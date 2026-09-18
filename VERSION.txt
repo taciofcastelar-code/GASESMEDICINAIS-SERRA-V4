@@ -1,0 +1,4 @@
+Gestão de Gases Medicinais Serra
+Versão: 4.0.0
+Início da análise operacional: 18/09/2026
+Segredos/APP_KEY: NÃO armazenados neste repositório.

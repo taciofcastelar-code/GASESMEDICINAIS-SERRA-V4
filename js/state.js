@@ -1,0 +1,1 @@
+export const state={requests:[],tickets:[],indicators:{},setRequests(items){this.requests=Array.isArray(items)?items:[]},setTickets(items){this.tickets=Array.isArray(items)?items:[]},setIndicators(data){this.indicators=data||{}}};
